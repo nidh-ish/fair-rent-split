@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Matrix Input</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            color: #003366;
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 2px 2px #e6e6e6;
+        }
+
+        form {
+            margin: 0 auto;
+            width: 70%;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px #cccccc;
+        }
+
+        input[type="number"] {
+            width: 60px;
+            height: 30px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 5px;
+            border: 1px solid #cccccc;
+            margin: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #003366;
+            color: #ffffff;
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #002050;
+        }
+    </style>
+</head>
+<body>
+    <center><h1>Enter Matrix:</h1>
+    <form method="post" action="/matrix_display">
+        {% for i in range(size) %}
+            <div>
+            {% for j in range(size) %}
+                <input type="number" name="{{i}}-{{j}}" required>
+            {% endfor %}
+            </div>
+        {% endfor %}
+        <div style="text-align:center">
+          <input type="hidden" name="size" value="{{ size }}">
+          <input type="hidden" name="rent" value="{{ rent }}">
+          <input type="submit" value="Submit">
+        </div>
+    </form></center>
+</body>
+</html>
