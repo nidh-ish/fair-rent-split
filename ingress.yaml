@@ -4,7 +4,7 @@ metadata:
   name: my-ingress
 spec:
   rules:
-  - host: myapp.domain.com
+  - host: fair-rent-split.com
     http:
       paths:
       - path: /my-app
