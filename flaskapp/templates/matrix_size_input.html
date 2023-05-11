@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="text-center">
+        <h1 class="display-3">FAIR RENT SPLIT APP</h1>
+    </div>
+    <form method="post" action="/matrix_input" class="text-center">
+        <div class="form-group">
+            <input type="number" name="size" class="form-control form-control-lg" placeholder="No of Roommates" required>
+        </div>
+        <div class="form-group">
+            <input type="number" name="rent" class="form-control form-control-lg" placeholder="Total Rent" required>
+        </div>
+        <br>
+        <input type="submit" class="btn btn-primary btn-lg" value="Submit">
+    </form>
+</div>
+
+<br>
+<div class="container">
+    {% if history|length == 0 %}
+        <h3>Welcome, Start splitting rent "FAIRLY" today</h3>
+    {% else %}
+        <div class="row">
+            {% set count = 0 %}
+            {% for hist_list in history %}
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            History {{ loop.index }}
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Roommate</th>
+                                        <th>Room</th>
+                                        <th>Rent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for hist in hist_list %}
+                                        {% set info = hist.split(' for rent: ') %}
+                                        <tr>
+                                            <td>{{ info[0].split(' is alloted to room : ')[0] }}</td>
+                                            <td>{{ info[0].split(' is alloted to room : ')[1] }}</td>
+                                            <td>{{ info[1] }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% set count = count + 1 %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock content %}
