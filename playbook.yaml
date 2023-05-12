@@ -3,18 +3,18 @@
   gather_facts: no
   tasks:
   - name: Apply deployment file
-    command: kubectl apply -f {{ deployment_file }} 
+    command: kubectl apply -f {{ deployment_file }} --kubeconfig={{ kubeconfig_file }}
     args:
       chdir: k8
   - name: Apply service file
-    command: kubectl apply -f {{ service_file }} 
+    command: kubectl apply -f {{ service_file }} --kubeconfig={{ kubeconfig_file }}
     args:
       chdir: k8
   - name: Wait for deployment to complete
-    command: kubectl rollout status deployment/{{ app_name }} 
+    command: kubectl rollout status deployment/{{ app_name }} --kubeconfig={{ kubeconfig_file }}
     args:
       chdir: k8
   - name: Apply Ingress configuration
-    command: kubectl apply -f {{ ingress_file }} 
+    command: kubectl apply -f {{ ingress_file }} --kubeconfig={{ kubeconfig_file }}
     args:
       chdir: k8
