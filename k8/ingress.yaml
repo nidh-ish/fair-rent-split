@@ -7,7 +7,7 @@ spec:
   - host: fair-rent-split.com
     http:
       paths:
-      - path: /my-app
+      - path: /
         pathType: Prefix
         backend:
           service:
