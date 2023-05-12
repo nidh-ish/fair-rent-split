@@ -5,6 +5,7 @@ pipeline {
         DOCKER_HUB_CREDENTIALS = 'DockerHub'
         IMAGE_NAME = "nidhishbhimrajka/fair-rent-split"
         IMAGE_TAG = "latest"
+        KUBECONFIG = credentials('configfile')
     }
     stages {
         stage('Clone git'){
@@ -35,7 +36,7 @@ pipeline {
         }
         stage('Deploy using ansible'){
             steps{
-                ansiblePlaybook colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: 'inventory.yaml', playbook: 'playbook.yaml'
+                ansiblePlaybook colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: 'inventory.yaml', playbook: 'playbook.yaml', extras: "-e 'kubeconfig_file=${KUBECONFIG}'"
             }
         }
         stage('Test the Flask Application'){
