@@ -20,12 +20,13 @@ def create_app(config_class=Config):
     app.config.from_object(Config)
     
     #comment if we want previous log also
-    with open('instance/app.log', 'w'):
-        pass
+    #with open('instance/app.log', 'w'):
+    #    pass
     
     handler = logging.handlers.RotatingFileHandler('instance/app.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
-    formatter = jsonlogger.JsonFormatter('%(asctime)s %(levelname)s %(message)s')
+    # formatter = jsonlogger.JsonFormatter('%(asctime)s %(levelname)s %(message)s')
+    formatter = logging.Formatter('%(asctime)s, %(levelname)s, %(message)s')
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
     
