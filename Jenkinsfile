@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clone git'){
             steps{
-                git url: 'https://github.com/nidh-ish/fair-rent-split.git', branch: 'test'
+                git url: 'https://github.com/nidh-ish/fair-rent-split.git', branch: 'test2'
             }
         }
         stage('Build Docker Image') {
@@ -23,9 +23,17 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry(DOCKER_HUB_REGISTRY, DOCKER_HUB_CREDENTIALS) {
+                    docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
                         dockerImage.push()
                     }
+                }
+            }
+        }
+        stage('Remove old deployment') {
+            steps {
+                withKubeConfig([credentialsId: 'configfile']) {
+                    sh 'kubectl delete deployment my-app --ignore-not-found=true'
+                    sh 'kubectl delete service my-app --ignore-not-found=true'
                 }
             }
         }
