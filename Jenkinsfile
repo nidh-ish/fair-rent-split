@@ -29,11 +29,6 @@ pipeline {
                 }
             }
         }
-        stage('Remove Docker Image') {
-            steps {
-                sh 'docker rmi $IMAGE_NAME:$IMAGE_TAG'
-            }
-        }
         stage('Deploy using ansible'){
             steps{
                 ansiblePlaybook colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: 'inventory.yaml', playbook: 'playbook.yaml', extras: "-e 'kubeconfig_file=${KUBECONFIG}'"
