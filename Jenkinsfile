@@ -44,7 +44,8 @@ pipeline {
         }
         stage('Test the Flask Application'){
             steps{
-                sh 'python3 test_api.py'
+                sh 'pip3 install -r requirements.txt'
+                sh 'python3 -m pytest'
             }
         }
     }
