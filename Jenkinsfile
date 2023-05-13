@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clone git'){
             steps{
-                git url: 'https://github.com/nidh-ish/fair-rent-split.git', branch: 'test2'
+                git url: 'https://github.com/nidh-ish/fair-rent-split.git', branch: 'main'
             }
         }
         stage('Build Docker Image') {
