@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<div class="container">
+    <h1 class="text-center display-4">RENT PREFERENCES PER ROOM</h1>
+    <form method="post" action="/output">
+    <table class="matrix-table">
+        <thead>
+            <tr>
+                <th></th>
+                {% for j in range(size) %}
+                    <th>Room {{ j+1 }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(size) %}
+                <tr>
+                    <th>User {{ i+1 }}</th>
+                    {% for j in range(size) %}
+                        <td>
+                            <input type="number" name="{{ i }}-{{ j }}" class="form-control" step="any" placeholder="User {{ i+1 }}, Room {{ j+1 }}" required>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="matrix-submit">
+        <input type="hidden" name="size" value="{{ size }}">
+        <input type="hidden" name="rent" value="{{ rent }}">
+        <input type="submit" class="btn btn-primary" value="Submit">
+    </div>
+    </form>>
+</div>
+
+<div class="matrix-instructions">
+    <h4>Instructions:</h4>
+    <ul>
+        <li>User i, Room i represents User i's willingness to pay rent for Room i.</li>
+        <li>The sum of all rents for each User should add up to the total Rent.</li>
+    </ul>
+</div>
+
+{% endblock content %}

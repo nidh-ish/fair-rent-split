@@ -1,0 +1,9 @@
+all:
+  hosts:
+    localhost:
+      ansible_connection: local
+  vars:
+    deployment_file: deployment.yaml
+    service_file: service.yaml
+    ingress_file: ingress.yaml
+    app_name: my-app

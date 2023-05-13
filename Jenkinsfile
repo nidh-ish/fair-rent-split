@@ -4,12 +4,13 @@ pipeline {
         DOCKER_HUB_REGISTRY = 'https://registry.hub.docker.com'
         DOCKER_HUB_CREDENTIALS = 'DockerHub'
         IMAGE_NAME = "nidhishbhimrajka/fair-rent-split"
-        IMAGE_TAG = "${env.BUILD_NUMBER}"
+        IMAGE_TAG = "latest"
+        KUBECONFIG = credentials('configfile')
     }
     stages {
         stage('Clone git'){
             steps{
-                git url: 'https://github.com/nidh-ish/fair-rent-split.git', branch: 'main'
+                git url: 'https://github.com/nidh-ish/fair-rent-split.git', branch: 'test2'
             }
         }
         stage('Build Docker Image') {
@@ -22,24 +23,29 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry(DOCKER_HUB_REGISTRY, DOCKER_HUB_CREDENTIALS) {
+                    docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
                         dockerImage.push()
                     }
                 }
             }
         }
-        stage('Deploy to Kubernetes') {
+        stage('Remove old deployment') {
             steps {
                 withKubeConfig([credentialsId: 'configfile']) {
-                    sh 'kubectl apply -f deployment.yaml -f service.yaml'
+                    sh 'kubectl delete deployment my-app --ignore-not-found=true'
+                    sh 'kubectl delete service my-app --ignore-not-found=true'
                 }
             }
         }
-        stage('Apply Ingress Configuration') {
-            steps {
-                withKubeConfig([credentialsId: 'configfile']) {
-                    sh "kubectl apply -f ingress.yaml"
-                }
+        stage('Deploy using ansible'){
+            steps{
+                ansiblePlaybook colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: 'inventory.yaml', playbook: 'playbook.yaml', extras: "-e 'kubeconfig_file=${KUBECONFIG}'"
+            }
+        }
+        stage('Test the Flask Application'){
+            steps{
+                sh 'pip3 install -r requirements.txt'
+                sh 'python3 -m pytest'
             }
         }
     }

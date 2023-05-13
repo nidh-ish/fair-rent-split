@@ -12,4 +12,3 @@ spec:
       targetPort: 5000
       nodePort: 30022
       protocol: TCP
-
