@@ -15,10 +15,12 @@ login_manager = LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
-def create_app(config_class=Config):
-    app = Flask(__name__)
-    app.config.from_object(Config)
-    
+def create_app(config_class=Config, test_config=None):
+    app = Flask(__name__, instance_relative_config=True)
+    if(test_config is None):
+        app.config.from_object(Config)
+    else:
+        app.config.from_mapping(test_config)
     #comment if we want previous log also
     #with open('instance/app.log', 'w'):
     #    pass

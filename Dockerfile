@@ -23,4 +23,6 @@ ENV SQLALCHEMY_TRACK_MODIFICATIONS=False
 EXPOSE 5000
 
 # Run the command to start the application
-CMD ["flask", "run", "--host=0.0.0.0"]
+# CMD ["flask", "run", "--host=0.0.0.0"]
+
+CMD ["sh", "-c", "pytest && flask run --host=0.0.0.0"]
